@@ -90,7 +90,7 @@ The workflow will:
 2. Create a GitHub Release
 3. Upload all builds as release assets
 
-See [.github/README.md](.github/README.md) for detailed CI/CD documentation.
+See [.github/README.md](.github/WORKFLOW_README.md) for detailed CI/CD documentation.
 
 ## Internationalization
 
