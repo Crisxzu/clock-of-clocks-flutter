@@ -1,22 +1,31 @@
 import 'package:flutter/material.dart';
 
 class Clock extends StatelessWidget {
-  const Clock({
+  Clock({
     super.key,
-    this.firstNeedleTurns = 0,
-    this.secondNeedleTurns = 0,
+    this.firstNeedleTurns = 3/8,
+    this.secondNeedleTurns = 3/8,
+    this.needleTurns,
     this.duration = const Duration(seconds: 1)
   });
 
-  final double firstNeedleTurns;
-  final double secondNeedleTurns;
+  double firstNeedleTurns;
+  double secondNeedleTurns;
+  List<double>? needleTurns;
   final Duration duration;
 
   @override
   Widget build(BuildContext context) {
+    if(needleTurns != null) {
+      if(needleTurns!.length != 2) {
+        throw RangeError.range(needleTurns!.length, 2, 2);
+      }
+
+      firstNeedleTurns = needleTurns![0];
+      secondNeedleTurns = needleTurns![1];
+    }
+
     return Container(
-      height: 100,
-      width: 100,
       decoration: BoxDecoration(
           color: Colors.black,
           border: Border.all(width: 5, color: Colors.grey)
