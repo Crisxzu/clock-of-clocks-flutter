@@ -1,11 +1,13 @@
 import 'dart:async';
 
+
 import 'package:flutter/material.dart';
 
 import '../common/utils.dart';
 import '../common/responsive_utils.dart';
 import '../l10n/app_localizations.dart';
 import 'widgets/digit.dart';
+import 'widgets/credits.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -65,6 +67,12 @@ class _HomePageState extends State<HomePage> {
         title: Text(l10n.appTitle),
         centerTitle: true,
       ),
+      bottomNavigationBar: SafeArea(
+        child: Material(
+          color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+          child: Credits(),
+        ),
+      ),
       body: SafeArea(
         child: Center(
           child: OrientationBuilder(
@@ -74,37 +82,41 @@ class _HomePageState extends State<HomePage> {
 
               return FractionallySizedBox(
                 widthFactor: orientation == Orientation.portrait ? 0.9 : (tablet ? 0.6 : 0.75),
-                heightFactor: orientation == Orientation.portrait ? (tablet ? 0.25 : 0.2) : 0.85,
+                heightFactor: orientation == Orientation.portrait ? (tablet ? 0.25 : 0.25) : 1,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Flexible(
                       child: Row(
                         spacing: spacing,
-                      children: [
-                        ...[
-                          for(int i = 0; i < parts.length; i++)
-                            Flexible(
-                              child: Row(
-                              children: [
-                                  Flexible(
-                                    child: Digit(
-                                      value: int.parse(parts[i][0]),
-                                      orientation: orientation,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ...[
+                            for(int i = 0; i < parts.length; i++)
+                              Flexible(
+                                child: Row(
+                                children: [
+                                    Flexible(
+                                      child: Digit(
+                                        value: int.parse(parts[i][0]),
+                                        orientation: orientation,
+                                      )
+                                    ),
+                                    Flexible(
+                                      child: Digit(
+                                        value: int.parse(parts[i][1]),
+                                        orientation: orientation,
+                                      )
                                     )
-                                  ),
-                                  Flexible(
-                                    child: Digit(
-                                      value: int.parse(parts[i][1]),
-                                      orientation: orientation,
-                                    )
-                                  )
-                                ],
-                              ),
-                            )
-                        ]
-                      ],
+                                  ],
+                                ),
+                              )
+                            ]
+                        ],
+                      ),
                     ),
-                  ),
                     Padding(
                       padding: EdgeInsets.all(getResponsivePadding(context)),
                       child: Text(
@@ -113,7 +125,7 @@ class _HomePageState extends State<HomePage> {
                           fontSize: getResponsiveFontSize(context)
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               );
