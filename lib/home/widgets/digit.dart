@@ -8,10 +8,12 @@ import 'clock.dart';
 class Digit extends StatelessWidget {
   Digit({
     super.key,
-    required this.value
+    required this.value,
+    required this.orientation,
   });
 
   int value;
+  final Orientation orientation;
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +23,8 @@ class Digit extends StatelessWidget {
     return GridView.count(
       primary: false,
       crossAxisCount: 4,
-      crossAxisSpacing: 3,
-      mainAxisSpacing: 3,
+      crossAxisSpacing: orientation == Orientation.portrait ? 0 : 3,
+      mainAxisSpacing: orientation == Orientation.portrait ? 0 : 3,
       children: [
         ...[
           for(int i = 0; i < angles!.length; i++)

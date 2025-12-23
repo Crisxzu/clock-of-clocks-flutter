@@ -6,7 +6,7 @@ class Clock extends StatelessWidget {
     this.firstNeedleTurns = 3/8,
     this.secondNeedleTurns = 3/8,
     this.needleTurns,
-    this.duration = const Duration(seconds: 1)
+    this.duration = const Duration(milliseconds: 500)
   });
 
   double firstNeedleTurns;
@@ -28,7 +28,8 @@ class Clock extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           color: Colors.black,
-          border: Border.all(width: 5, color: Colors.grey)
+          border: Border.all(width: 1, color: Color.fromRGBO(52, 52, 52, 1)),
+          borderRadius: BorderRadius.circular(24)
       ),
       child: Stack(
         children: [
