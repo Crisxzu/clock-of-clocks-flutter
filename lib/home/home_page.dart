@@ -16,7 +16,10 @@ class HomePage extends StatelessWidget {
         centerTitle: true,
       ),
       body: Center(
-        child: Clock(firstNeedleAngle: 0, secondNeedleAngle: pi),
+        child: Clock(
+          firstNeedleTurns: 0.75,
+          secondNeedleTurns: 0.5
+        ),
       ),
     );
   }

@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class Clock extends StatelessWidget {
   const Clock({
     super.key,
-    this.firstNeedleAngle = 0,
-    this.secondNeedleAngle = 0
+    this.firstNeedleTurns = 0,
+    this.secondNeedleTurns = 0,
+    this.duration = const Duration(seconds: 1)
   });
 
-  final double firstNeedleAngle;
-  final double secondNeedleAngle;
+  final double firstNeedleTurns;
+  final double secondNeedleTurns;
+  final Duration duration;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +24,9 @@ class Clock extends StatelessWidget {
       child: Stack(
         children: [
           SizedBox.expand(
-            child: Transform.rotate(
-              angle: firstNeedleAngle,
+            child: AnimatedRotation(
+              turns: firstNeedleTurns,
+              duration: duration,
               child: FractionallySizedBox(
                 widthFactor: 0.5,
                 heightFactor: 0.08,
@@ -37,8 +40,9 @@ class Clock extends StatelessWidget {
             ),
           ),
           SizedBox.expand(
-            child: Transform.rotate(
-              angle: secondNeedleAngle,
+            child: AnimatedRotation(
+              turns: secondNeedleTurns,
+              duration: duration,
               child: FractionallySizedBox(
                 widthFactor: 0.5,
                 heightFactor: 0.08,
