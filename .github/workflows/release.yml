@@ -1,0 +1,176 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  # Build all platforms for release
+  build-all:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: web-android-linux
+          - os: macos-latest
+            platform: ios-macos
+          - os: windows-latest
+            platform: windows
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Java (Android only)
+      if: matrix.platform == 'web-android-linux'
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Install Linux dependencies
+      if: matrix.platform == 'web-android-linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.32.3'
+        channel: 'stable'
+        cache: true
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Generate localizations
+      run: flutter gen-l10n
+
+    # Web & Android & Linux builds (Ubuntu)
+    - name: Build Web
+      if: matrix.platform == 'web-android-linux'
+      run: flutter build web --release
+
+    - name: Create Web archive
+      if: matrix.platform == 'web-android-linux'
+      run: |
+        cd build/web
+        tar -czf ../clock_app-web.tar.gz *
+
+    - name: Build Android APK
+      if: matrix.platform == 'web-android-linux'
+      run: flutter build apk --release
+
+    - name: Build Android App Bundle
+      if: matrix.platform == 'web-android-linux'
+      run: flutter build appbundle --release
+
+    - name: Build Linux
+      if: matrix.platform == 'web-android-linux'
+      run: flutter build linux --release
+
+    - name: Create Linux tarball
+      if: matrix.platform == 'web-android-linux'
+      run: |
+        cd build/linux/x64/release/bundle
+        tar -czf ../../../../clock_app-linux-x64.tar.gz *
+
+    # iOS & macOS builds
+    - name: Build iOS (no codesign)
+      if: matrix.platform == 'ios-macos'
+      run: flutter build ios --release --no-codesign
+      continue-on-error: true
+
+    - name: Build macOS
+      if: matrix.platform == 'ios-macos'
+      run: flutter build macos --release
+
+    - name: Create macOS DMG
+      if: matrix.platform == 'ios-macos'
+      run: |
+        cd build/macos/Build/Products/Release
+        mkdir -p dmg
+        cp -r clock_app.app dmg/
+        hdiutil create -volname "Clock Made of Clocks" -srcfolder dmg -ov -format UDZO ../clock_app-macos.dmg
+
+    # Windows builds
+    - name: Build Windows
+      if: matrix.platform == 'windows'
+      run: flutter build windows --release
+
+    - name: Create Windows ZIP
+      if: matrix.platform == 'windows'
+      run: |
+        Compress-Archive -Path build\windows\x64\runner\Release\* -DestinationPath build\clock_app-windows-x64.zip
+
+    # Upload artifacts
+    # Note: 5 days retention is OK - artifacts are only for passing between jobs.
+    # Once attached to the GitHub Release, the files become permanent release assets.
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-${{ matrix.platform }}
+        path: |
+          build/*.tar.gz
+          build/*.dmg
+          build/*.zip
+          build/app/outputs/flutter-apk/app-release.apk
+          build/app/outputs/bundle/release/app-release.aab
+        retention-days: 5
+
+  # Create GitHub Release
+  create-release:
+    needs: build-all
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: artifacts
+
+    - name: Display structure
+      run: ls -R artifacts
+
+    - name: Prepare release files
+      run: |
+        mkdir -p release-files
+        find artifacts -type f \( -name "*.apk" -o -name "*.aab" -o -name "*.tar.gz" -o -name "*.dmg" -o -name "*.zip" \) -exec cp {} release-files/ \;
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: release-files/*
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+        body: |
+          ## Downloads
+
+          ### Mobile
+          - **Android APK**: `app-release.apk` - Direct install
+          - **Android App Bundle**: `app-release.aab` - For Google Play Store
+
+          ### Desktop
+          - **Windows**: `clock_app-windows-x64.zip` - Extract and run
+          - **macOS**: `clock_app-macos.dmg` - Mount and drag to Applications
+          - **Linux**: `clock_app-linux-x64.tar.gz` - Extract and run
+
+          ### Web
+          - **Web Build**: `clock_app-web.tar.gz` - Deploy to any web server
+
+          ---
+
+          Built automatically with GitHub Actions
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

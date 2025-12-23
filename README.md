@@ -1,6 +1,6 @@
 # Clock Made of Clocks ⏰
 
-A creative Flutter application that displays the current time using a grid of animated analog clocks.<br/> 
+A creative Flutter application that displays the current time using a grid of animated analog clocks. <br/> 
 Each digit is composed of 24 mini clocks (4x6 grid) whose hands rotate to form the shape of numbers.
 
 ## Inspiration
@@ -68,20 +68,59 @@ flutter pub get
 flutter run
 ```
 
+## CI/CD with GitHub Actions
+
+The project includes automated build workflows for all platforms:
+
+### Automated Releases (release.yml)
+Creates GitHub Releases with downloadable builds when you tag a version:
+
+```bash
+# Create and push a version tag
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+The workflow will:
+1. Build all platforms in parallel
+2. Create a GitHub Release
+3. Upload all builds as release assets
+
+See [.github/README.md](.github/README.md) for detailed CI/CD documentation.
+
+## Internationalization
+
+The app supports English and French:
+- Automatic language detection based on device locale
+- Fallback to English for unsupported languages
+- ARB-based localization system
+
+To add new translations, edit files in `lib/l10n/`:
+- `app_en.arb` - English translations
+- `app_fr.arb` - French translations
+
 ## Project Structure
 
 ```
 lib/
 ├── common/
-│   ├── constants.dart       # Digit patterns and angle mappings
-│   ├── responsive_utils.dart # Responsive helper functions
-│   └── utils.dart           # Utility functions (time formatting, locale)
+│   ├── constants.dart         # Digit patterns and angle mappings
+│   ├── responsive_utils.dart  # Responsive helper functions
+│   └── utils.dart             # Utility functions (time formatting, locale)
 ├── home/
-│   ├── home_page.dart       # Main page with time display
+│   ├── home_page.dart         # Main page with time display
 │   └── widgets/
-│       ├── clock.dart       # Individual analog clock widget
-│       └── digit.dart       # Digit composed of 24 clocks
-└── main.dart                # App entry point
+│       ├── clock.dart         # Individual analog clock widget
+│       └── digit.dart         # Digit composed of 24 clocks
+├── l10n/
+│   ├── app_en.arb             # English translations
+│   ├── app_fr.arb             # French translations
+│   └── app_localizations.dart # Generated localization classes
+└── main.dart                  # App entry point
+
+.github/
+└── workflows/
+    └── release.yml            # Automated release creation
 ```
 
 ## How It Works
