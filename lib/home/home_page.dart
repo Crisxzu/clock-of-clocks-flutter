@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:clock_app/common/utils.dart';
+import 'package:clock_app/common/responsive_utils.dart';
 import 'package:clock_app/home/widgets/digit.dart';
 import 'package:flutter/material.dart';
 
@@ -36,16 +37,17 @@ class _HomePageState extends State<HomePage> {
 
   void updateHour() {
     final nowDate = DateTime.now();
-    String hourStr = getHour(nowDate, getUserLanguage(context));
     bool is24HFormat = is24HourFormat(context);
+    String hourStr = getHour(nowDate, getUserLanguage(context), is24HourFormat: is24HFormat);
 
     if(!is24HFormat) {
       final temp = hourStr.substring(0, hourStr.length - 3);
       symbol = hourStr.substring(temp.length+1);
+      hourStr = temp;
     }
 
     setState(() {
-      parts = hourStr.split(':');
+      parts = hourStr.split(':').map((part) => part.padLeft(2, '0')).toList();
     });
   }
 
@@ -62,18 +64,21 @@ class _HomePageState extends State<HomePage> {
         title: Text("Clock made of clock"),
         centerTitle: true,
       ),
-      body: Center(
-        child: OrientationBuilder(
-          builder: (context, orientation) {
+      body: SafeArea(
+        child: Center(
+          child: OrientationBuilder(
+            builder: (context, orientation) {
+              final spacing = getResponsiveSpacing(context);
+              final tablet = isTablet(context);
 
-            return FractionallySizedBox(
-              widthFactor: orientation == Orientation.portrait ? 0.9 : 0.75,
-              heightFactor: orientation == Orientation.portrait ? 0.2 : 0.85,
-              child: Column(
-                children: [
-                  Flexible(
-                    child: Row(
-                      spacing: orientation == Orientation.portrait ? 10 : 20,
+              return FractionallySizedBox(
+                widthFactor: orientation == Orientation.portrait ? 0.9 : (tablet ? 0.6 : 0.75),
+                heightFactor: orientation == Orientation.portrait ? (tablet ? 0.25 : 0.2) : 0.85,
+                child: Column(
+                  children: [
+                    Flexible(
+                      child: Row(
+                        spacing: spacing,
                       children: [
                         ...[
                           for(int i = 0; i < parts.length; i++)
@@ -99,19 +104,20 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      is24HFormat ? "24 hours format" : "12 hours format($symbol)",
-                      style: TextStyle(
-                        fontSize: 24
+                    Padding(
+                      padding: EdgeInsets.all(getResponsivePadding(context)),
+                      child: Text(
+                        is24HFormat ? "24 hours format" : "12 hours format($symbol)",
+                        style: TextStyle(
+                          fontSize: getResponsiveFontSize(context)
+                        ),
                       ),
-                    ),
-                  )
-                ],
-              ),
-            );
-          },
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

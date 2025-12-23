@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:clock_app/common/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
@@ -26,8 +24,8 @@ Locale getUserLanguage(BuildContext context) {
   return Localizations.localeOf(context);
 }
 
-String getHour(DateTime dateTime, Locale locale) {
-  final formatter = DateFormat('jms', locale.toString());
+String getHour(DateTime dateTime, Locale locale, {bool is24HourFormat = true}) {
+  final formatter = DateFormat(is24HourFormat ? 'Hms' : 'jms', locale.toString());
   return formatter.format(dateTime);
 }
 
