@@ -1,6 +1,7 @@
-import 'package:clock_app/common/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+
+import 'constants.dart';
 
 List<List<double>>? getAngleFromDigit(int digit) {
  List<String>? positions = digitMap[digit.toString()];

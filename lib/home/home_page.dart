@@ -1,9 +1,11 @@
 import 'dart:async';
 
-import 'package:clock_app/common/utils.dart';
-import 'package:clock_app/common/responsive_utils.dart';
-import 'package:clock_app/home/widgets/digit.dart';
 import 'package:flutter/material.dart';
+
+import '../common/utils.dart';
+import '../common/responsive_utils.dart';
+import 'widgets/digit.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -61,7 +63,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Clock made of clock"),
+        title: Text("Clock made of clocks"),
         centerTitle: true,
       ),
       body: SafeArea(
