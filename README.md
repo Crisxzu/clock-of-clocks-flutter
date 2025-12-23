@@ -25,13 +25,13 @@ You can check his repo on this [link](https://github.com/githyperplexed/clock-of
 
 ## Screenshots
 
-![Portrait](portrait.png)
+<img src="portrait.png" alt="Portrait image for my Clock app, showing current hour with info of hour format" width="200"/>
 
-![Landscape](landscape.png)
+<img src="landscape.png" alt="Landscape image for my Clock app, showing current hour with info of hour format" width="600"/>
 
 ## Technical Stack
 
-- **Framework**: Flutter 3.8.1+
+- **Framework**: Flutter 3.32+
 - **Language**: Dart
 - **Dependencies**:
   - `intl` - For internationalization and time formatting
