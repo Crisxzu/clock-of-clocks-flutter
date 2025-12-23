@@ -1,0 +1,15 @@
+{
+  "@@locale": "fr",
+  "appTitle": "Horloge faite d'horloges",
+  "@appTitle": {
+    "description": "Le titre de l'application"
+  },
+  "format24Hours": "Format 24 heures",
+  "@format24Hours": {
+    "description": "Label pour le format horaire 24 heures"
+  },
+  "format12Hours": "Format 12 heures",
+  "@format12Hours": {
+    "description": "Label pour le format horaire 12 heures"
+  }
+}

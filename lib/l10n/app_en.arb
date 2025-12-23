@@ -1,0 +1,15 @@
+{
+  "@@locale": "en",
+  "appTitle": "Clock made of clocks",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "format24Hours": "24 hours format",
+  "@format24Hours": {
+    "description": "Label for 24-hour time format"
+  },
+  "format12Hours": "12 hours format",
+  "@format12Hours": {
+    "description": "Label for 12-hour time format"
+  }
+}

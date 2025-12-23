@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../common/utils.dart';
 import '../common/responsive_utils.dart';
+import '../l10n/app_localizations.dart';
 import 'widgets/digit.dart';
 
 
@@ -26,14 +27,11 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    is24HFormat = is24HourFormat(context);
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) async {
-      updateHour();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      is24HFormat = is24HourFormat(context);
+      _timer = Timer.periodic(Duration(seconds: 1), (timer) async {
+        updateHour();
+      });
     });
   }
 
@@ -61,9 +59,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Clock made of clocks"),
+        title: Text(l10n.appTitle),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -109,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                     Padding(
                       padding: EdgeInsets.all(getResponsivePadding(context)),
                       child: Text(
-                        is24HFormat ? "24 hours format" : "12 hours format($symbol)",
+                        is24HFormat ? l10n.format24Hours : "${l10n.format12Hours} ($symbol)",
                         style: TextStyle(
                           fontSize: getResponsiveFontSize(context)
                         ),
