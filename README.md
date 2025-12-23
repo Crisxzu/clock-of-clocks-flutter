@@ -1,5 +1,7 @@
 # Clock Made of Clocks ⏰
 
+[![Create Release](https://github.com/Crisxzu/clock-of-clocks-flutter/actions/workflows/release.yml/badge.svg)](https://github.com/Crisxzu/clock-of-clocks-flutter/actions/workflows/release.yml)
+
 A creative Flutter application that displays the current time using a grid of animated analog clocks. <br/> 
 Each digit is composed of 24 mini clocks (4x6 grid) whose hands rotate to form the shape of numbers.
 
@@ -23,11 +25,13 @@ You can check his repo on this [link](https://github.com/githyperplexed/clock-of
 
 ## Screenshots
 
-<!-- Add screenshots here when available -->
+<img src="portrait.png" alt="Portrait image for my Clock app, showing current hour with info of hour format" width="200"/>
+
+<img src="landscape.png" alt="Landscape image for my Clock app, showing current hour with info of hour format" width="600"/>
 
 ## Technical Stack
 
-- **Framework**: Flutter 3.8.1+
+- **Framework**: Flutter 3.32+
 - **Language**: Dart
 - **Dependencies**:
   - `intl` - For internationalization and time formatting
@@ -86,7 +90,7 @@ The workflow will:
 2. Create a GitHub Release
 3. Upload all builds as release assets
 
-See [.github/README.md](.github/README.md) for detailed CI/CD documentation.
+See [.github/README.md](.github/WORKFLOW_README.md) for detailed CI/CD documentation.
 
 ## Internationalization
 
