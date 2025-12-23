@@ -1,5 +1,7 @@
 # Clock Made of Clocks ⏰
 
+[![Create Release](https://github.com/Crisxzu/clock-of-clocks-flutter/actions/workflows/release.yml/badge.svg)](https://github.com/Crisxzu/clock-of-clocks-flutter/actions/workflows/release.yml)
+
 A creative Flutter application that displays the current time using a grid of animated analog clocks. <br/> 
 Each digit is composed of 24 mini clocks (4x6 grid) whose hands rotate to form the shape of numbers.
 
@@ -23,7 +25,9 @@ You can check his repo on this [link](https://github.com/githyperplexed/clock-of
 
 ## Screenshots
 
-<!-- Add screenshots here when available -->
+![Portrait](portrait.png)
+
+![Landscape](landscape.png)
 
 ## Technical Stack
 
