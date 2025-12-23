@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:clock_app/home/widgets/clock.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,7 +16,7 @@ class HomePage extends StatelessWidget {
         centerTitle: true,
       ),
       body: Center(
-        child: Text("Test"),
+        child: Clock(firstNeedleAngle: 0, secondNeedleAngle: pi),
       ),
     );
   }
